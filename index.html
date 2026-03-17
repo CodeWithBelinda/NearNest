@@ -3,181 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nearest | Find Houses in Kaimosi</title>
+    <title>Nearest | Kaimosi Housing</title>
     <style>
-        body { font-family: Arial, sans-serif; margin:0; background:#f4f4f4; scroll-behavior: smooth; }
-        header { background:#2c3e50; color:white; padding:20px; text-align:center; }
+        body { font-family: 'Segoe UI', sans-serif; margin:0; background:#f4f4f4; scroll-behavior: smooth; }
+        header { background:#2c3e50; color:white; padding:40px 20px; text-align:center; }
         nav { background:#34495e; padding:10px; text-align:center; position:sticky; top:0; z-index:100; }
         nav a { color:white; margin:10px; text-decoration:none; font-weight:bold; cursor:pointer; }
         nav a:hover { color:#f1c40f; }
         
-        .search-container { text-align:center; margin:20px; }
-        .search-box { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; align-items:center; }
-        .search-box input, .search-box select { padding:10px; border:1px solid #ccc; border-radius:4px; }
+        .search-container { text-align:center; margin:30px 20px; }
+        .search-box { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; align-items:center; }
+        .search-box input { width: 300px; height: 48px; border: 2px solid #2c3e50; border-radius: 8px; padding-left: 15px; font-size: 16px; }
+        .search-box select { height: 52px; padding: 0 10px; border: 2px solid #2c3e50; border-radius: 8px; background: white; font-weight: bold; }
         
-        .houses { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; padding:20px; margin-top:20px; }
-        .house-card { background:white; width:280px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.2); overflow:hidden; transition: 0.3s; }
-        .house-card:hover { transform: translateY(-5px); }
-        .house-card img { width:100%; height:180px; object-fit:cover; }
+        .btn-reset { height: 52px; padding: 0 20px; background: #e74c3c; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+
+        .houses { display:flex; justify-content:center; gap:25px; flex-wrap:wrap; padding:20px; }
+        .house-card { background:white; width:300px; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.1); overflow:hidden; transition: 0.3s; display: flex; flex-direction: column; }
+        .house-card:hover { transform: translateY(-8px); }
+        .house-card img { width:100%; height:200px; object-fit:cover; }
         
-        .house-info { padding:15px; }
-        .house-info h3 { margin: 0 0 10px 0; color: #2c3e50; }
-        .house-info p { margin: 5px 0; font-size: 14px; color: #555; }
+        .house-info { padding:20px; flex-grow: 1; }
+        .house-info h3 { margin: 0 0 5px 0; color: #2c3e50; text-transform: capitalize; }
+        .room-detail { font-size: 0.9rem; color: #7f8c8d; font-weight: bold; margin-bottom: 10px; display: block; }
+        .price-tag { color: #27ae60; font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; }
+
+        .amenities { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+        .tag { background: #eee; padding: 4px 8px; border-radius: 4px; font-size: 11px; color: #555; font-weight: 600; text-transform: uppercase; }
+        .tag-water { background: #d4edda; color: #155724; }
         
-        /* FIXED BUTTON CONTAINER */
-        .btn-container { 
-            display: flex; 
-            gap: 8px; 
-            margin-top: 15px;
-            width: 100%;
-        }
-        
-        .btn { 
-            flex: 1; /* This forces buttons to be equal width */
-            text-align: center; 
-            padding: 12px 5px; 
-            color: white; 
-            text-decoration: none; 
-            border-radius: 4px; 
-            font-weight: bold; 
-            font-size: 13px; 
-            display: inline-block;
-        }
-        
+        .btn-container { display: flex; gap: 10px; margin-top: 15px; }
+        .btn { flex: 1; text-align: center; padding: 12px; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px; }
         .btn-call { background:#27ae60; }
         .btn-whatsapp { background:#25D366; }
         
-        .btn-call:hover { background: #219150; }
-        .btn-whatsapp:hover { background: #128C7E; }
-        
-        .contact { padding:50px; text-align:center; background:#ecf0f1; margin-top:50px; }
+        #noResults { display:none; text-align:center; padding: 40px; color: #7f8c8d; width: 100%; }
     </style>
 </head>
 <body>
 
 <header id="homeSection">
     <h1>Nearest</h1>
-    <p>Find Houses Around Kaimosi Easily</p>
+    <p>Finding you a home in Kaimosi</p>
 </header>
 
 <nav>
     <a onclick="scrollToSection('homeSection')">Home</a>
-    <a onclick="scrollToSection('housesSection')">Houses</a>
-    <a onclick="scrollToSection('contactSection')">Contact</a>
-    <a href="#">Admin</a>
+    <a onclick="scrollToSection('housesSection')">Available Houses</a>
+    <a href="mailto:belindanasike39@gmail.com">Contact Support</a>
 </nav>
 
 <div class="search-container">
     <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Type house name..." oninput="filterHouses()">
+        <input type="text" id="searchInput" placeholder="Search rooms or amenities..." oninput="filterHouses()">
+        
         <select id="areaSelect" onchange="filterHouses()">
             <option value="">All Areas</option>
-            <option value="Cheptulu Market">Cheptulu Market</option>
-            <option value="Vision">Vision</option>
-            <option value="Silent Corner">Silent Corner</option>
-            <option value="Shipala">Shipala</option>
-            <option value="Nanga">Nanga</option>
-            <option value="Sigongo">Sigongo</option>
-            <option value="Upendo">Upendo</option>
-            <option value="Triple E">Triple E</option>
-            <option value="Mahanga">Mahanga</option>
-            <option value="Mulundu">Mulundu</option>
-            <option value="Maganda">Maganda</option>
-            <option value="Shamakhokho">Shamakhokho</option>
+            <option value="cheptulu market">Cheptulu Market</option>
+            <option value="vision">Vision</option>
+            <option value="silent corner">Silent Corner</option>
+            <option value="shipala">Shipala</option>
+            <option value="nanga">Nanga</option>
+            <option value="sigongo">Sigongo</option>
+            <option value="upendo">Upendo</option>
+            <option value="tripple e">Tripple E</option>
+            <option value="mahanga">Mahanga</option>
+            <option value="mulundu">Mulundu</option>
+            <option value="maganda">Maganda</option>
+            <option value="shamakhokho">Shamakhokho</option>
+            <option value="musasa">Musasa</option>
         </select>
+
+        <select id="priceSelect" onchange="filterHouses()">
+            <option value="">Any Price</option>
+            <option value="3500">Ksh 3,500 and below</option>
+            <option value="5000">Ksh 5,000 and below</option>
+            <option value="10000">Above Ksh 5,000</option>
+        </select>
+
+        <button class="btn-reset" onclick="resetFilters()">Reset</button>
     </div>
 </div>
 
+<div id="noResults">
+    <h3>🚫 No houses found matching your criteria.</h3>
+</div>
+
 <section class="houses" id="housesSection">
-
-    <div class="house-card" data-area="Cheptulu Market" data-name="Green View Rooms">
-        <img src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4" alt="House">
+    
+    <div class="house-card" data-area="vision" data-name="luxury villa" data-price="3500" data-amenities="water electricity single rooms">
+        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750" alt="Luxury Villa">
         <div class="house-info">
-            <h3>Green View Rooms</h3>
-            <p><strong>Price:</strong> Ksh 3,500 / month</p>
-            <p><strong>Location:</strong> Cheptulu Market</p>
-            <p><strong>Distance:</strong> 300m from campus</p>
+            <h3>Luxury Villa</h3>
+            <span class="room-detail">Single Rooms (1 - 18)</span>
+            <p class="price-tag">Ksh 3,500 / month</p>
+            <div class="amenities">
+                <span class="tag tag-water">💧 24/7 Water</span>
+                <span class="tag">⚡ Electricity</span>
+            </div>
             <div class="btn-container">
-                <a href="tel:0712345678" class="btn btn-call">Call</a>
-                <a href="https://wa.me/254754571779?text=Hi, I am interested in Green View Rooms" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
+                <a href="tel:0754571779" class="btn btn-call">Call</a>
+                <a href="https://wa.me/254754571779?text=Hi, I am interested in Luxury Villa, Room 1-18" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
             </div>
         </div>
     </div>
 
-    <div class="house-card" data-area="Vision" data-name="Sunrise Hostel">
-        <img src="https://images.unsplash.com/photo-1501183638710-841dd1904471" alt="House">
+    <div class="house-card" data-area="upendo" data-name="search and see" data-price="3500" data-amenities="water electricity single rooms">
+        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267" alt="Search and See">
         <div class="house-info">
-            <h3>Sunrise Hostel</h3>
-            <p><strong>Price:</strong> Ksh 4,000 / month</p>
-            <p><strong>Location:</strong> Vision</p>
-            <p><strong>Distance:</strong> 200m from campus</p>
+            <h3>Search and See</h3>
+            <span class="room-detail">Single Rooms</span>
+            <p class="price-tag">Ksh 3,500 / month</p>
+            <div class="amenities">
+                <span class="tag tag-water">💧 24/7 Water</span>
+                <span class="tag">⚡ Electricity</span>
+            </div>
             <div class="btn-container">
-                <a href="tel:0798765432" class="btn btn-call">Call</a>
-                <a href="https://wa.me/254754571779?text=Hi, I am interested in Sunrise Hostel" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
+                <a href="tel:0754571779" class="btn btn-call">Call</a>
+                <a href="https://wa.me/254754571779?text=Hi, I am interested in Search and See" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
             </div>
         </div>
     </div>
 
-    <div class="house-card" data-area="Upendo" data-name="Search and see Rentals">
-        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267" alt="House">
-        <div class="house-info">
-            <h3>Search and see Rentals</h3>
-            <p><strong>Price:</strong> Ksh 3,500 / month</p>
-            <p><strong>Location:</strong> Upendo</p>
-            <p><strong>Distance:</strong> 500m from Cheptulu</p>
-            <div class="btn-container">
-                <a href="tel:0798765432" class="btn btn-call">Call</a>
-                <a href="https://wa.me/254754571779?text=Hi, I am interested in Search and see Rentals" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="house-card" data-area="Cheptulu Market" data-name="Nestling">
-        <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858" alt="House">
+    <div class="house-card" data-area="cheptulu market" data-name="nestling" data-price="4500" data-amenities="water electricity bedsitter">
+        <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858" alt="Nestling">
         <div class="house-info">
             <h3>Nestling</h3>
-            <p><strong>Price:</strong> Ksh 4,500 / month</p>
-            <p><strong>Location:</strong> Cheptulu Market</p>
-            <p><strong>Distance:</strong> 500m from market</p>
+            <span class="room-detail">Bedsitter</span>
+            <p class="price-tag">Ksh 4,500 / month</p>
+            <div class="amenities">
+                <span class="tag tag-water">💧 24/7 Water</span>
+                <span class="tag">⚡ Electricity</span>
+            </div>
             <div class="btn-container">
-                <a href="tel:0700000000" class="btn btn-call">Call</a>
-                <a href="https://wa.me/254754571779?text=Hi, I am interested in Nestling" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
+                <a href="tel:0754571779" class="btn btn-call">Call</a>
+                <a href="https://wa.me/254754571779?text=Hi, I am interested in a Nestling Bedsitter" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
             </div>
         </div>
     </div>
 
-</section>
+    <div class="house-card" data-area="cheptulu market" data-name="nestling" data-price="7000" data-amenities="water electricity self-contained">
+        <img src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4" alt="Nestling Premium">
+        <div class="house-info">
+            <h3>Nestling Premium</h3>
+            <span class="room-detail">Self-Contained</span>
+            <p class="price-tag">Ksh 7,000 / month</p>
+            <div class="amenities">
+                <span class="tag tag-water">💧 24/7 Water</span>
+                <span class="tag">⚡ Electricity</span>
+            </div>
+            <div class="btn-container">
+                <a href="tel:0754571779" class="btn btn-call">Call</a>
+                <a href="https://wa.me/254754571779?text=Hi, I am interested in a Nestling Self-Contained room" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
+            </div>
+        </div>
+    </div>
 
-<section class="contact" id="contactSection">
-    <h2>Contact Us</h2>
-    <p>Email: belindanasike39@gmail.com</p>
-    <p>Phone: 0712345678</p>
 </section>
 
 <script>
     function scrollToSection(id) {
-        const element = document.getElementById(id);
-        element.scrollIntoView({behavior:'smooth'});
+        document.getElementById(id).scrollIntoView({behavior:'smooth'});
     }
 
     function filterHouses() {
         const textInput = document.getElementById('searchInput').value.toLowerCase();
         const areaSelect = document.getElementById('areaSelect').value.toLowerCase();
+        const priceSelect = document.getElementById('priceSelect').value;
         const houses = document.querySelectorAll('.house-card');
+        const noResults = document.getElementById('noResults');
+        let visibleCount = 0;
 
         houses.forEach(house => {
             const name = house.getAttribute('data-name').toLowerCase();
             const area = house.getAttribute('data-area').toLowerCase();
+            const amenities = house.getAttribute('data-amenities').toLowerCase();
+            const price = parseInt(house.getAttribute('data-price'));
 
-            const matchesText = name.includes(textInput);
+            const matchesText = name.includes(textInput) || amenities.includes(textInput);
             const matchesArea = areaSelect === "" || area === areaSelect;
+            
+            let matchesPrice = true;
+            if (priceSelect === "3500") matchesPrice = price <= 3500;
+            else if (priceSelect === "5000") matchesPrice = price <= 5000;
+            else if (priceSelect === "10000") matchesPrice = price > 5000;
 
-            if (matchesText && matchesArea) {
+            if (matchesText && matchesArea && matchesPrice) {
                 house.style.display = "block";
+                visibleCount++;
             } else {
                 house.style.display = "none";
             }
         });
+        noResults.style.display = visibleCount === 0 ? "block" : "none";
+    }
+
+    function resetFilters() {
+        document.getElementById('searchInput').value = "";
+        document.getElementById('areaSelect').value = "";
+        document.getElementById('priceSelect').value = "";
+        filterHouses();
     }
 </script>
 
