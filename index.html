@@ -24,8 +24,31 @@
         .house-info h3 { margin: 0 0 10px 0; color: #2c3e50; }
         .house-info p { margin: 5px 0; font-size: 14px; color: #555; }
         
-        .btn { display:inline-block; margin-top:10px; padding:10px 15px; background:#27ae60; color:white; text-decoration:none; border-radius:4px; font-weight: bold; }
-        .btn:hover { background: #219150; }
+        /* FIXED BUTTON CONTAINER */
+        .btn-container { 
+            display: flex; 
+            gap: 8px; 
+            margin-top: 15px;
+            width: 100%;
+        }
+        
+        .btn { 
+            flex: 1; /* This forces buttons to be equal width */
+            text-align: center; 
+            padding: 12px 5px; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 4px; 
+            font-weight: bold; 
+            font-size: 13px; 
+            display: inline-block;
+        }
+        
+        .btn-call { background:#27ae60; }
+        .btn-whatsapp { background:#25D366; }
+        
+        .btn-call:hover { background: #219150; }
+        .btn-whatsapp:hover { background: #128C7E; }
         
         .contact { padding:50px; text-align:center; background:#ecf0f1; margin-top:50px; }
     </style>
@@ -47,7 +70,6 @@
 <div class="search-container">
     <div class="search-box">
         <input type="text" id="searchInput" placeholder="Type house name..." oninput="filterHouses()">
-        
         <select id="areaSelect" onchange="filterHouses()">
             <option value="">All Areas</option>
             <option value="Cheptulu Market">Cheptulu Market</option>
@@ -75,7 +97,10 @@
             <p><strong>Price:</strong> Ksh 3,500 / month</p>
             <p><strong>Location:</strong> Cheptulu Market</p>
             <p><strong>Distance:</strong> 300m from campus</p>
-            <a href="tel:0712345678" class="btn">Call Landlord</a>
+            <div class="btn-container">
+                <a href="tel:0712345678" class="btn btn-call">Call</a>
+                <a href="https://wa.me/254754571779?text=Hi, I am interested in Green View Rooms" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
+            </div>
         </div>
     </div>
 
@@ -86,7 +111,10 @@
             <p><strong>Price:</strong> Ksh 4,000 / month</p>
             <p><strong>Location:</strong> Vision</p>
             <p><strong>Distance:</strong> 200m from campus</p>
-            <a href="tel:0798765432" class="btn">Call Landlord</a>
+            <div class="btn-container">
+                <a href="tel:0798765432" class="btn btn-call">Call</a>
+                <a href="https://wa.me/254754571779?text=Hi, I am interested in Sunrise Hostel" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
+            </div>
         </div>
     </div>
 
@@ -97,7 +125,10 @@
             <p><strong>Price:</strong> Ksh 3,500 / month</p>
             <p><strong>Location:</strong> Upendo</p>
             <p><strong>Distance:</strong> 500m from Cheptulu</p>
-            <a href="tel:0798765432" class="btn">Call Landlord</a>
+            <div class="btn-container">
+                <a href="tel:0798765432" class="btn btn-call">Call</a>
+                <a href="https://wa.me/254754571779?text=Hi, I am interested in Search and see Rentals" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
+            </div>
         </div>
     </div>
 
@@ -108,7 +139,10 @@
             <p><strong>Price:</strong> Ksh 4,500 / month</p>
             <p><strong>Location:</strong> Cheptulu Market</p>
             <p><strong>Distance:</strong> 500m from market</p>
-            <a href="tel:0700000000" class="btn">Call Landlord</a>
+            <div class="btn-container">
+                <a href="tel:0700000000" class="btn btn-call">Call</a>
+                <a href="https://wa.me/254754571779?text=Hi, I am interested in Nestling" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
+            </div>
         </div>
     </div>
 
@@ -121,13 +155,11 @@
 </section>
 
 <script>
-    // Scroll smoothly to a section
     function scrollToSection(id) {
         const element = document.getElementById(id);
         element.scrollIntoView({behavior:'smooth'});
     }
 
-    // Filter by BOTH name and area
     function filterHouses() {
         const textInput = document.getElementById('searchInput').value.toLowerCase();
         const areaSelect = document.getElementById('areaSelect').value.toLowerCase();
