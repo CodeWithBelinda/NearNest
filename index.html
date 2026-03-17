@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nearest | Find Houses in Kaimosi</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin:0; background:#f4f4f4; scroll-behavior: smooth; }
+        header { background:#2c3e50; color:white; padding:20px; text-align:center; }
+        nav { background:#34495e; padding:10px; text-align:center; position:sticky; top:0; z-index:100; }
+        nav a { color:white; margin:10px; text-decoration:none; font-weight:bold; cursor:pointer; }
+        nav a:hover { color:#f1c40f; }
+        
+        .search-container { text-align:center; margin:20px; }
+        .search-box { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; align-items:center; }
+        .search-box input, .search-box select { padding:10px; border:1px solid #ccc; border-radius:4px; }
+        
+        .houses { display:flex; justify-content:center; gap:20px; flex-wrap:wrap; padding:20px; margin-top:20px; }
+        .house-card { background:white; width:280px; border-radius:8px; box-shadow:0 2px 5px rgba(0,0,0,0.2); overflow:hidden; transition: 0.3s; }
+        .house-card:hover { transform: translateY(-5px); }
+        .house-card img { width:100%; height:180px; object-fit:cover; }
+        
+        .house-info { padding:15px; }
+        .house-info h3 { margin: 0 0 10px 0; color: #2c3e50; }
+        .house-info p { margin: 5px 0; font-size: 14px; color: #555; }
+        
+        .btn { display:inline-block; margin-top:10px; padding:10px 15px; background:#27ae60; color:white; text-decoration:none; border-radius:4px; font-weight: bold; }
+        .btn:hover { background: #219150; }
+        
+        .contact { padding:50px; text-align:center; background:#ecf0f1; margin-top:50px; }
+    </style>
+</head>
+<body>
+
+<header id="homeSection">
+    <h1>Nearest</h1>
+    <p>Find Houses Around Kaimosi Easily</p>
+</header>
+
+<nav>
+    <a onclick="scrollToSection('homeSection')">Home</a>
+    <a onclick="scrollToSection('housesSection')">Houses</a>
+    <a onclick="scrollToSection('contactSection')">Contact</a>
+    <a href="#">Admin</a>
+</nav>
+
+<div class="search-container">
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Type house name..." oninput="filterHouses()">
+        
+        <select id="areaSelect" onchange="filterHouses()">
+            <option value="">All Areas</option>
+            <option value="Cheptulu Market">Cheptulu Market</option>
+            <option value="Vision">Vision</option>
+            <option value="Silent Corner">Silent Corner</option>
+            <option value="Shipala">Shipala</option>
+            <option value="Nanga">Nanga</option>
+            <option value="Sigongo">Sigongo</option>
+            <option value="Upendo">Upendo</option>
+            <option value="Triple E">Triple E</option>
+            <option value="Mahanga">Mahanga</option>
+            <option value="Mulundu">Mulundu</option>
+            <option value="Maganda">Maganda</option>
+            <option value="Shamakhokho">Shamakhokho</option>
+        </select>
+    </div>
+</div>
+
+<section class="houses" id="housesSection">
+
+    <div class="house-card" data-area="Cheptulu Market" data-name="Green View Rooms">
+        <img src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4" alt="House">
+        <div class="house-info">
+            <h3>Green View Rooms</h3>
+            <p><strong>Price:</strong> Ksh 3,500 / month</p>
+            <p><strong>Location:</strong> Cheptulu Market</p>
+            <p><strong>Distance:</strong> 300m from campus</p>
+            <a href="tel:0712345678" class="btn">Call Landlord</a>
+        </div>
+    </div>
+
+    <div class="house-card" data-area="Vision" data-name="Sunrise Hostel">
+        <img src="https://images.unsplash.com/photo-1501183638710-841dd1904471" alt="House">
+        <div class="house-info">
+            <h3>Sunrise Hostel</h3>
+            <p><strong>Price:</strong> Ksh 4,000 / month</p>
+            <p><strong>Location:</strong> Vision</p>
+            <p><strong>Distance:</strong> 200m from campus</p>
+            <a href="tel:0798765432" class="btn">Call Landlord</a>
+        </div>
+    </div>
+
+    <div class="house-card" data-area="Upendo" data-name="Search and see Rentals">
+        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267" alt="House">
+        <div class="house-info">
+            <h3>Search and see Rentals</h3>
+            <p><strong>Price:</strong> Ksh 3,500 / month</p>
+            <p><strong>Location:</strong> Upendo</p>
+            <p><strong>Distance:</strong> 500m from Cheptulu</p>
+            <a href="tel:0798765432" class="btn">Call Landlord</a>
+        </div>
+    </div>
+
+    <div class="house-card" data-area="Cheptulu Market" data-name="Nestling">
+        <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858" alt="House">
+        <div class="house-info">
+            <h3>Nestling</h3>
+            <p><strong>Price:</strong> Ksh 4,500 / month</p>
+            <p><strong>Location:</strong> Cheptulu Market</p>
+            <p><strong>Distance:</strong> 500m from market</p>
+            <a href="tel:0700000000" class="btn">Call Landlord</a>
+        </div>
+    </div>
+
+</section>
+
+<section class="contact" id="contactSection">
+    <h2>Contact Us</h2>
+    <p>Email: belindanasike39@gmail.com</p>
+    <p>Phone: 0712345678</p>
+</section>
+
+<script>
+    // Scroll smoothly to a section
+    function scrollToSection(id) {
+        const element = document.getElementById(id);
+        element.scrollIntoView({behavior:'smooth'});
+    }
+
+    // Filter by BOTH name and area
+    function filterHouses() {
+        const textInput = document.getElementById('searchInput').value.toLowerCase();
+        const areaSelect = document.getElementById('areaSelect').value.toLowerCase();
+        const houses = document.querySelectorAll('.house-card');
+
+        houses.forEach(house => {
+            const name = house.getAttribute('data-name').toLowerCase();
+            const area = house.getAttribute('data-area').toLowerCase();
+
+            const matchesText = name.includes(textInput);
+            const matchesArea = areaSelect === "" || area === areaSelect;
+
+            if (matchesText && matchesArea) {
+                house.style.display = "block";
+            } else {
+                house.style.display = "none";
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
