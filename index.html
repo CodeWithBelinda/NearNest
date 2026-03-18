@@ -3,167 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nearest | Kaimosi Housing</title>
+    <title>Nearnest | Your Home Away from Home</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; margin:0; background:#f4f4f4; scroll-behavior: smooth; }
-        header { background:#2c3e50; color:white; padding:40px 20px; text-align:center; }
-        nav { background:#34495e; padding:10px; text-align:center; position:sticky; top:0; z-index:100; }
-        nav a { color:white; margin:10px; text-decoration:none; font-weight:bold; cursor:pointer; }
-        nav a:hover { color:#f1c40f; }
-        
-        .search-container { text-align:center; margin:30px 20px; }
-        .search-box { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; align-items:center; }
-        .search-box input { width: 300px; height: 48px; border: 2px solid #2c3e50; border-radius: 8px; padding-left: 15px; font-size: 16px; }
-        .search-box select { height: 52px; padding: 0 10px; border: 2px solid #2c3e50; border-radius: 8px; background: white; font-weight: bold; }
-        
-        .btn-reset { height: 52px; padding: 0 20px; background: #e74c3c; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        /* Trust Palette Variables */
+        :root {
+            --navy: #1a2a6c;
+            --azure: #0052cc;
+            --light-bg: #f4f7f6;
+            --success: #27ae60;
+            --text-dark: #2c3e50;
+            --neutral: #ffffff;
+        }
 
-        .houses { display:flex; justify-content:center; gap:25px; flex-wrap:wrap; padding:20px; }
-        .house-card { background:white; width:300px; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.1); overflow:hidden; transition: 0.3s; display: flex; flex-direction: column; }
-        .house-card:hover { transform: translateY(-8px); }
-        .house-card img { width:100%; height:200px; object-fit:cover; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin:0; background: var(--light-bg); scroll-behavior: smooth; color: var(--text-dark); }
+        
+        /* Header & Custom CSS Logo */
+        header { background: var(--navy); color:white; padding:60px 20px; text-align:center; border-bottom: 5px solid var(--azure); }
+        
+        .logo-container { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; margin-bottom: 10px; }
+        .logo-display { display: flex; align-items: center; gap: 15px; }
+
+        /* Stylized "Nest" Icon */
+        .nest-icon { position: relative; width: 45px; height: 35px; background: var(--azure); border-radius: 10px 10px 22px 22px; box-shadow: 0 4px 12px rgba(0,82,204,0.4); }
+        .nest-icon::before { content: ''; position: absolute; top: -12px; left: 7px; width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-bottom: 15px solid var(--neutral); border-radius: 4px; }
+        .nest-icon::after { content: ''; position: absolute; top: 10px; left: 12px; width: 20px; height: 12px; background: rgba(255,255,255,0.3); border-radius: 5px; }
+
+        header .logo-name { margin: 0; font-size: 3.5rem; letter-spacing: 1px; text-transform: capitalize; color: var(--neutral); font-weight: 800; }
+        header .slogan { margin: 15px 0 0; font-weight: 600; font-size: 1.2rem; color: #fff; opacity: 0.95; letter-spacing: 0.5px; }
+        
+        /* Sticky Navigation */
+        nav { background: #fff; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        nav a { color: var(--navy); margin: 0 15px; text-decoration: none; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        nav a:hover { color: var(--azure); }
+        
+        /* Search Filters */
+        .search-container { text-align:center; margin:40px 20px; }
+        .search-box { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; align-items:center; }
+        .search-box input, .search-box select { height: 50px; border: 2px solid #ddd; border-radius: 8px; padding: 0 15px; font-size: 16px; transition: 0.3s; background: white;}
+        .search-box input:focus, .search-box select:focus { border-color: var(--azure); outline: none; box-shadow: 0 0 8px rgba(0,82,204,0.2); }
+        .btn-reset { height: 52px; padding: 0 25px; background: #95a5a6; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+
+        /* House Cards */
+        .houses { display:flex; justify-content:center; gap:30px; flex-wrap:wrap; padding:20px; min-height: 400px; }
+        .house-card { background:white; width:320px; border-radius:15px; box-shadow:0 10px 20px rgba(0,0,0,0.05); overflow:hidden; transition: 0.4s; display: flex; flex-direction: column; border: 1px solid #eee; }
+        .house-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); border-color: var(--azure); }
+        .house-card img { width:100%; height:220px; object-fit:cover; cursor: zoom-in; }
         
         .house-info { padding:20px; flex-grow: 1; }
-        .house-info h3 { margin: 0 0 5px 0; color: #2c3e50; text-transform: capitalize; }
+        .house-info h3 { margin: 0 0 5px 0; color: var(--navy); text-transform: capitalize; }
         .room-detail { font-size: 0.9rem; color: #7f8c8d; font-weight: bold; margin-bottom: 10px; display: block; }
-        .price-tag { color: #27ae60; font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; }
+        .price-tag { color: var(--success); font-weight: 800; font-size: 1.4rem; margin-bottom: 15px; }
 
         .amenities { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
-        .tag { background: #eee; padding: 4px 8px; border-radius: 4px; font-size: 11px; color: #555; font-weight: 600; text-transform: uppercase; }
-        .tag-water { background: #d4edda; color: #155724; }
+        .tag { background: #f0f2f5; padding: 5px 10px; border-radius: 4px; font-size: 11px; color: #555; font-weight: 600; text-transform: uppercase; }
         
-        .btn-container { display: flex; gap: 10px; margin-top: 15px; }
-        .btn { flex: 1; text-align: center; padding: 12px; color: white; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 14px; }
-        .btn-call { background:#27ae60; }
-        .btn-whatsapp { background:#25D366; }
-        
-        #noResults { display:none; text-align:center; padding: 40px; color: #7f8c8d; width: 100%; }
+        /* Buttons */
+        .btn-container { display: flex; gap: 10px; margin-top: 20px; }
+        .btn { flex: 1; text-align: center; padding: 14px; color: white; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; transition: 0.3s; }
+        .btn-call { background: var(--azure); }
+        .btn-whatsapp { background: #25D366; }
+        .btn:hover { filter: brightness(1.1); transform: scale(1.02); }
+
+        /* Footer */
+        footer { background: var(--navy); color: white; padding: 60px 20px; text-align: center; margin-top: 50px; }
+        footer h2 { margin-bottom: 15px; color: white; }
+        .footer-contacts { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin: 30px 0; }
+        .footer-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 15px 25px; border-radius: 30px; color: white; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        .footer-btn:hover { background: var(--azure); border-color: var(--azure); transform: translateY(-3px); }
+        .copyright { font-size: 0.85rem; color: #bdc3c7; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px; margin-top: 30px; }
+
+        /* Modal & UI Elements */
+        #imageModal { display:none; position:fixed; z-index:1001; padding-top:60px; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.9); }
+        .modal-content { margin: auto; display: block; width: 80%; max-width: 750px; border-radius: 12px; }
+        .close { position: absolute; top: 15px; right: 35px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer; }
+        #backToTop { position: fixed; bottom: 30px; right: 30px; background: var(--azure); color: white; border: none; width: 55px; height: 55px; border-radius: 50%; cursor: pointer; display: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); font-size: 20px; z-index: 99; transition: 0.3s; }
+        #noResults { display:none; text-align:center; padding: 60px; color: #7f8c8d; width: 100%; }
     </style>
 </head>
 <body>
 
 <header id="homeSection">
-    <h1>Nearest</h1>
-    <p>Finding you a home in Kaimosi</p>
+    <div class="logo-container">
+        <div class="logo-display">
+            <div class="nest-icon"></div>
+            <h1 class="logo-name">Nearnest</h1>
+        </div>
+        <p class="slogan">Your Home Away from Home</p>
+    </div>
 </header>
 
 <nav>
     <a onclick="scrollToSection('homeSection')">Home</a>
-    <a onclick="scrollToSection('housesSection')">Available Houses</a>
-    <a href="mailto:belindanasike39@gmail.com">Contact Support</a>
+    <a onclick="scrollToSection('housesSection')">Available Hostels</a>
+    <a onclick="scrollToSection('contactSection')">Support</a>
 </nav>
 
 <div class="search-container">
     <div class="search-box">
         <input type="text" id="searchInput" placeholder="Search rooms or amenities..." oninput="filterHouses()">
-        
         <select id="areaSelect" onchange="filterHouses()">
             <option value="">All Areas</option>
-            <option value="cheptulu market">Cheptulu Market</option>
             <option value="vision">Vision</option>
-            <option value="silent corner">Silent Corner</option>
-            <option value="shipala">Shipala</option>
-            <option value="nanga">Nanga</option>
-            <option value="sigongo">Sigongo</option>
+            <option value="cheptulu market">Cheptulu Market</option>
             <option value="upendo">Upendo</option>
-            <option value="tripple e">Tripple E</option>
-            <option value="mahanga">Mahanga</option>
-            <option value="mulundu">Mulundu</option>
-            <option value="maganda">Maganda</option>
-            <option value="shamakhokho">Shamakhokho</option>
-            <option value="musasa">Musasa</option>
+            <option value="sigongo">Sigongo</option>
+            <option value="silent corner">Silent Corner</option>
         </select>
-
         <select id="priceSelect" onchange="filterHouses()">
             <option value="">Any Price</option>
             <option value="3500">Ksh 3,500 and below</option>
             <option value="5000">Ksh 5,000 and below</option>
             <option value="10000">Above Ksh 5,000</option>
         </select>
-
         <button class="btn-reset" onclick="resetFilters()">Reset</button>
     </div>
 </div>
 
 <div id="noResults">
-    <h3>🚫 No houses found matching your criteria.</h3>
+    <h3>🚫 No hostels found matching your criteria.</h3>
 </div>
 
 <section class="houses" id="housesSection">
-    
     <div class="house-card" data-area="vision" data-name="luxury villa" data-price="3500" data-amenities="water electricity single rooms">
-        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750" alt="Luxury Villa">
+        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750" alt="Luxury Villa" onclick="openModal(this.src)">
         <div class="house-info">
             <h3>Luxury Villa</h3>
             <span class="room-detail">Single Rooms (1 - 18)</span>
             <p class="price-tag">Ksh 3,500 / month</p>
             <div class="amenities">
-                <span class="tag tag-water">💧 24/7 Water</span>
+                <span class="tag">💧 24/7 Water</span>
                 <span class="tag">⚡ Electricity</span>
             </div>
             <div class="btn-container">
-                <a href="tel:0754571779" class="btn btn-call">Call</a>
-                <a href="https://wa.me/254754571779?text=Hi, I am interested in Luxury Villa, Room 1-18" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="house-card" data-area="upendo" data-name="search and see" data-price="3500" data-amenities="water electricity single rooms">
-        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267" alt="Search and See">
-        <div class="house-info">
-            <h3>Search and See</h3>
-            <span class="room-detail">Single Rooms</span>
-            <p class="price-tag">Ksh 3,500 / month</p>
-            <div class="amenities">
-                <span class="tag tag-water">💧 24/7 Water</span>
-                <span class="tag">⚡ Electricity</span>
-            </div>
-            <div class="btn-container">
-                <a href="tel:0754571779" class="btn btn-call">Call</a>
-                <a href="https://wa.me/254754571779?text=Hi, I am interested in Search and See" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
+                <a href="tel:0754571779" class="btn btn-call">Call Now</a>
+                <a href="https://wa.me/254754571779?text=Hi, I am interested in Luxury Villa via Nearnest" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
             </div>
         </div>
     </div>
 
     <div class="house-card" data-area="cheptulu market" data-name="nestling" data-price="4500" data-amenities="water electricity bedsitter">
-        <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858" alt="Nestling">
+        <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858" alt="Nestling" onclick="openModal(this.src)">
         <div class="house-info">
             <h3>Nestling</h3>
             <span class="room-detail">Bedsitter</span>
             <p class="price-tag">Ksh 4,500 / month</p>
             <div class="amenities">
-                <span class="tag tag-water">💧 24/7 Water</span>
+                <span class="tag">💧 24/7 Water</span>
                 <span class="tag">⚡ Electricity</span>
             </div>
             <div class="btn-container">
-                <a href="tel:0754571779" class="btn btn-call">Call</a>
-                <a href="https://wa.me/254754571779?text=Hi, I am interested in a Nestling Bedsitter" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
+                <a href="tel:0754571779" class="btn btn-call">Call Now</a>
+                <a href="https://wa.me/254754571779?text=Hi, I am interested in Nestling via Nearnest" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
             </div>
         </div>
     </div>
 
-    <div class="house-card" data-area="cheptulu market" data-name="nestling" data-price="7000" data-amenities="water electricity self-contained">
-        <img src="https://images.unsplash.com/photo-1560185127-6ed189bf02f4" alt="Nestling Premium">
+    <div class="house-card" data-area="upendo" data-name="search and see" data-price="3500" data-amenities="water electricity single rooms">
+        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267" alt="Search and See" onclick="openModal(this.src)">
         <div class="house-info">
-            <h3>Nestling Premium</h3>
-            <span class="room-detail">Self-Contained</span>
-            <p class="price-tag">Ksh 7,000 / month</p>
+            <h3>Search and See</h3>
+            <span class="room-detail">Single Rooms</span>
+            <p class="price-tag">Ksh 3,500 / month</p>
             <div class="amenities">
-                <span class="tag tag-water">💧 24/7 Water</span>
+                <span class="tag">💧 24/7 Water</span>
                 <span class="tag">⚡ Electricity</span>
             </div>
             <div class="btn-container">
-                <a href="tel:0754571779" class="btn btn-call">Call</a>
-                <a href="https://wa.me/254754571779?text=Hi, I am interested in a Nestling Self-Contained room" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
+                <a href="tel:0754571779" class="btn btn-call">Call Now</a>
+                <a href="https://wa.me/254754571779?text=Hi, I am interested in Search and See via Nearnest" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
             </div>
         </div>
     </div>
 
+    <div class="house-card" data-area="sigongo" data-name="sigongo annex" data-price="3200" data-amenities="water electricity quiet single">
+        <img src="https://images.unsplash.com/photo-1554995207-c18c203602cb" alt="Sigongo Annex" onclick="openModal(this.src)">
+        <div class="house-info">
+            <h3>Sigongo Annex</h3>
+            <span class="room-detail">Single Rooms</span>
+            <p class="price-tag">Ksh 3,200 / month</p>
+            <div class="amenities">
+                <span class="tag">💧 Water</span>
+                <span class="tag">🤫 Quiet Area</span>
+            </div>
+            <div class="btn-container">
+                <a href="tel:0754571779" class="btn btn-call">Call Now</a>
+                <a href="https://wa.me/254754571779?text=Hi, I am interested in Sigongo Annex via Nearnest" target="_blank" class="btn btn-whatsapp">WhatsApp</a>
+            </div>
+        </div>
+    </div>
 </section>
+
+<footer id="contactSection">
+    <h2>Nearnest Support</h2>
+    <p>Providing verified housing for peace of mind.</p>
+    <div class="footer-contacts">
+        <a href="tel:0754571779" class="footer-btn">📞 Call 0754571779</a>
+        <a href="https://wa.me/254754571779?text=Hello, I need help with Nearnest." target="_blank" class="footer-btn">💬 WhatsApp</a>
+        <a href="mailto:belindanasike39@gmail.com" class="footer-btn">✉️ Email Support</a>
+    </div>
+    <div class="copyright">
+        &copy; 2026 Nearnest Kaimosi. Secure Housing Solutions.
+    </div>
+</footer>
+
+<button id="backToTop" onclick="topFunction()">↑</button>
+
+<div id="imageModal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImg">
+</div>
 
 <script>
     function scrollToSection(id) {
         document.getElementById(id).scrollIntoView({behavior:'smooth'});
+    }
+
+    function openModal(imgSrc) {
+        document.getElementById("imageModal").style.display = "block";
+        document.getElementById("modalImg").src = imgSrc;
+    }
+
+    function closeModal() {
+        document.getElementById("imageModal").style.display = "none";
+    }
+
+    let mybutton = document.getElementById("backToTop");
+    window.onscroll = function() {
+        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
+    };
+
+    function topFunction() {
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
     function filterHouses() {
@@ -171,7 +245,6 @@
         const areaSelect = document.getElementById('areaSelect').value.toLowerCase();
         const priceSelect = document.getElementById('priceSelect').value;
         const houses = document.querySelectorAll('.house-card');
-        const noResults = document.getElementById('noResults');
         let visibleCount = 0;
 
         houses.forEach(house => {
@@ -182,20 +255,20 @@
 
             const matchesText = name.includes(textInput) || amenities.includes(textInput);
             const matchesArea = areaSelect === "" || area === areaSelect;
-            
             let matchesPrice = true;
+
             if (priceSelect === "3500") matchesPrice = price <= 3500;
             else if (priceSelect === "5000") matchesPrice = price <= 5000;
             else if (priceSelect === "10000") matchesPrice = price > 5000;
 
             if (matchesText && matchesArea && matchesPrice) {
-                house.style.display = "block";
+                house.style.display = "flex";
                 visibleCount++;
             } else {
                 house.style.display = "none";
             }
         });
-        noResults.style.display = visibleCount === 0 ? "block" : "none";
+        document.getElementById('noResults').style.display = visibleCount === 0 ? "block" : "none";
     }
 
     function resetFilters() {
