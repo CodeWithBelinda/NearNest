@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NearNest - Find Your Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">NearNest</div>
+        <a href="/">Home</a>
+        <a href="#housesSection">Houses</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+    </nav>
+
+    <div class="main-content">
+        <header>
+            <h1>Find Your NearNest</h1>
+            <p>Discover affordable and comfortable housing near you</p>
+        </header>
+
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="searchLocation" placeholder="Search by location...">
+                <select id="priceFilter">
+                    <option value="">Any Price</option>
+                    <option value="5000">Below Ksh 5,000</option>
+                    <option value="10000">Below Ksh 10,000</option>
+                </select>
+                <button class="btn btn-call" onclick="filterHouses()">Search</button>
+            </div>
+        </div>
+
+        <section class="houses" id="housesSection">
+            </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
